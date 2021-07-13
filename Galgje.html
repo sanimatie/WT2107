@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-with, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+    var pogingenNum = 10;
+    function checkletter(woord){
+    var pogingenNieuw = document.getElementById("pogingen").innerHTML;
+    console.log(pogingenNieuw);
+    var letterInput = document.getElementById("letter-input").value;
+    var countLetter = 0;
+    for (var i = 0; i < woord.length; i++){
+        if (letterInput == woord[i]){
+            alert(true);
+            countLetter++;
+        }
+    }
+    if (countLetter == 0){
+            alert(false);
+            pogingenNum--;
+            console.log(pogingenNum);
+            //dit werkt niet
+           pogingenNieuw = "overige pogingen: " + pogingenNum;
+            
+        }
+    }
+    </script>
+</head>
+<body>
+    <div>
+Galgje
+<br>
+vul een letter in
+<br>
+<input id="letter-input" type="text" maxlength="1">
+<input type="button" value="stuur" onclick="checkletter('test')">
+<div id="pogingen">overige pogingen: 10</div>
+</body>
+</html>
