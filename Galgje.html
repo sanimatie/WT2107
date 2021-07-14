@@ -18,7 +18,7 @@
 ,"miljoen","inrichting","klacht","dak","echt","schikking","print","oorlog","zijraam","hyacint"
 ];
     var pogingenNum = 10;
-    var antwoord = woordenArray[Math.floor(Math.random()*101)];
+    var antwoord = woordenArray[Math.floor(Math.random()*100)];
     console.log(antwoord);
     var weergaveLetters = [];
   
@@ -30,7 +30,10 @@
         //maak een array met het juiste aantal letters
         weergaveLetters.push("_ ");
         }
+        //verberg nieuw spel knop
+        document.getElementById("nieuw-spel").style.visibility = "hidden";
     }
+
     function checkletter(){
     var pogingenNieuw = document.getElementById("pogingen");
     var inputVak = document.getElementById("letter-input");
@@ -44,52 +47,64 @@
     var weergaveWoord = document.getElementById("het-woord");
 
     var gewonnenTekst = document.getElementById("gewonnen");
+    //voorkom dat mensen iet anders dan een letter versturen
+    var geenLetters = /[^A-Za-z]/;
+    if (letterInput.match(geenLetters)){
+        alert("vul een letter in");
+        inputVak.value="";
+    } else {
+            for (var i = 0; i < antwoord.length; i++){
+                if (letterInput == antwoord[i]){
+                    //melding dat je de letter al geraden hebt, kost geen punt
+                    if (letterInput == weergaveLetters[i]){
+                        alert("Deze letter heb je al geraden");
+                        countLetter++;
+                        //stop de loop zodat je niet twee keer dezelfde melding krijgt als een letter twee keer voorkomt
+                        i = antwoord.length;
+                    } else {
+                    countLetter++;
+                    //gebruik de eerder gemaakte array om de nieuwe letters te plaatsen
+                    weergaveLetters[i] = letterInput;
 
-    for (var i = 0; i < antwoord.length; i++){
-        if (letterInput == antwoord[i]){
-            //melding dat je de letter al geraden hebt, kost geen punt
-            if (letterInput == weergaveLetters[i]){
-                alert("Deze letter heb je al geraden");
-                countLetter++;
-                //stop de loop zodat je niet twee keer dezelfde melding krijgt als een letter twee keer voorkomt
-                i = antwoord.length;
-            } else {
-            countLetter++;
-            //gebruik de eerder gemaakte array om de nieuwe letters te plaatsen
-            weergaveLetters[i] = letterInput;
+                    }
 
             }
 
-       }
+            }
+            if (countLetter == 0){
+                    pogingenNum--;
+                    pogingenNieuw.innerHTML = "overige pogingen: " + pogingenNum;
+
+                    //melding als je de letter al geraden hebt, kost een punt
+                    if (foutGeraden.innerHTML.includes(letterInput)){
+                        alert("Deze letter heb je al geraden");
+                    } else {
+                    //foute letter toevoegen aan lijst
+                    foutGeraden.innerHTML += letterInput + ",";
+                }
+            }
+                // reset het input vakje
+                inputVak.value = "";
+                weergaveWoord.innerHTML = weergaveLetters.join("");
+
+                //controleer of alle letters zijn ingevuld en geef een winstmelding als dit zo is
+                if (weergaveWoord.innerHTML.includes("_") == false){
+                gewonnenTekst.innerHTML="je hebt gewonnen!";
+                //maak nieuw spel knop zichtbaar
+                document.getElementById("nieuw-spel").style.visibility = "visible";
+                }
+
+                //controleer of je pogingen op zijn en geef een verliesmelding als dit zo is
+                if (pogingenNum === 0){
+                    gewonnenTekst.innerHTML = "je hebt verloren :-(";
+                }
 
     }
-    if (countLetter == 0){
-            pogingenNum--;
-            pogingenNieuw.innerHTML = "overige pogingen: " + pogingenNum;
+}
 
-            //melding als je de letter al geraden hebt, kost een punt
-            if (foutGeraden.innerHTML.includes(letterInput)){
-                alert("Deze letter heb je al geraden");
-            } else {
-            //foute letter toevoegen aan lijst
-            foutGeraden.innerHTML += letterInput + ",";
-        }
-    }
-        // reset het input vakje
-        inputVak.value = "";
-        weergaveWoord.innerHTML = weergaveLetters.join("");
-
-        //controleer of alle letters zijn ingevuld en geef een winstmelding als dit zo is
-        if (weergaveWoord.innerHTML.includes("_") == false){
-        gewonnenTekst.innerHTML="je hebt gewonnen!";
-        }
-
-        //controleer of je pogingen op zijn en geef een verliesmelding als dit zo is
-        if (pogingenNum === 0){
-            gewonnenTekst.innerHTML = "je hebt verloren :-(";
-        }
-
-    }
+function nieuwSpel(){
+    location.reload();
+}
 
     </script>
 </head>
@@ -102,14 +117,11 @@ vul een letter in
 <div id="het-woord"></div>
 <br>
 <div id="gewonnen"></div>
-<input id="letter-input" type="text" maxlength="1">
+<input id="letter-input" type="text" maxlength="1" size="1">
 <input type="button" value="stuur" onclick="checkletter()">
 <div id="pogingen">overige pogingen: 10</div>
 <div>fout geraden letters:</div>
 <div id="geraden"></div>
+<input id="nieuw-spel" type="button" value="nieuw spel" onclick="nieuwSpel()">
 </body>
 </html>
-
-toevoegingen: <br>
-reset spel knop als je hebt gerwonnne <br>
-geen cijfers laten raden <br>
