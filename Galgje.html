@@ -6,8 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
+    var woordenArray = ["cavia","krukje","tijd","fors","sambal","zuivel","kritisch","jasje","giga","dieren"
+,"lepel","picknick","quasi","verzenden","winnaar","dextrose","vrezen","niqaab","hierbij","quote"
+,"botox","cruciaal","zitting","cabaret","bewogen","vrijuit","carrière","ijverig","cake","dyslexie"
+,"uier","nihil","sausje","kuuroord","poppetje","docent","camping","schijn","kloppen","detox"
+,"boycot","cyclus","quiz","censuur","aaibaar","chagrijnig","fictief","chef","gering","nacht"
+,"cacao","triomf","baby","ijstijd","cruisen","ontzeggen","quad","open","turquoise","carnaval"
+,"boxer","straks","fysiek","accu","twijg","quote","gammel","flirt","futloos","vreugde"
+,"ogen","geloof","periode","volwaardig","uitleg","stuk","volk","even","stijl","val"
+,"alliantie","tocht","mooi","joggen","broek","kwik","werksfeer","vorm","nieuw","sopraan"
+,"miljoen","inrichting","klacht","dak","echt","schikking","print","oorlog","zijraam","hyacint"
+];
     var pogingenNum = 10;
-    var antwoord = 'test';
+    var antwoord = woordenArray[Math.floor(Math.random()*101)];
+    console.log(antwoord);
     var weergaveLetters = [];
   
     window.onload = function Galgje(){
@@ -21,31 +33,62 @@
     }
     function checkletter(){
     var pogingenNieuw = document.getElementById("pogingen");
-    var letterInput = document.getElementById("letter-input").value;
+    var inputVak = document.getElementById("letter-input");
+    var letterInput = inputVak.value;
+
     var countLetter = 0;
+
+    var foutGeraden = document.getElementById("geraden");
     
-    //weer opnieuw de id het-woord zoeken want ik krijg daar geen globale variabele van for some reason
+    //weer opnieuw de id het-woord zoeken want ik krijg daar geen globale variabele van gemaakt for some reason
     var weergaveWoord = document.getElementById("het-woord");
+
+    var gewonnenTekst = document.getElementById("gewonnen");
 
     for (var i = 0; i < antwoord.length; i++){
         if (letterInput == antwoord[i]){
-            //alert(true);
+            //melding dat je de letter al geraden hebt, kost geen punt
+            if (letterInput == weergaveLetters[i]){
+                alert("Deze letter heb je al geraden");
+                countLetter++;
+                //stop de loop zodat je niet twee keer dezelfde melding krijgt als een letter twee keer voorkomt
+                i = antwoord.length;
+            } else {
             countLetter++;
             //gebruik de eerder gemaakte array om de nieuwe letters te plaatsen
             weergaveLetters[i] = letterInput;
 
+            }
+
        }
-       weergaveWoord.innerHTML = weergaveLetters.join("");
 
     }
     if (countLetter == 0){
-            alert(false);
             pogingenNum--;
             pogingenNieuw.innerHTML = "overige pogingen: " + pogingenNum;
-            
+
+            //melding als je de letter al geraden hebt, kost een punt
+            if (foutGeraden.innerHTML.includes(letterInput)){
+                alert("Deze letter heb je al geraden");
+            } else {
+            //foute letter toevoegen aan lijst
+            foutGeraden.innerHTML += letterInput + ",";
         }
-        //weergaveWoord.innerHTML = weergaveLetters;
-        console.log(weergaveLetters);
+    }
+        // reset het input vakje
+        inputVak.value = "";
+        weergaveWoord.innerHTML = weergaveLetters.join("");
+
+        //controleer of alle letters zijn ingevuld en geef een winstmelding als dit zo is
+        if (weergaveWoord.innerHTML.includes("_") == false){
+        gewonnenTekst.innerHTML="je hebt gewonnen!";
+        }
+
+        //controleer of je pogingen op zijn en geef een verliesmelding als dit zo is
+        if (pogingenNum === 0){
+            gewonnenTekst.innerHTML = "je hebt verloren :-(";
+        }
+
     }
 
     </script>
@@ -58,8 +101,15 @@ vul een letter in
 <br>
 <div id="het-woord"></div>
 <br>
+<div id="gewonnen"></div>
 <input id="letter-input" type="text" maxlength="1">
 <input type="button" value="stuur" onclick="checkletter()">
 <div id="pogingen">overige pogingen: 10</div>
+<div>fout geraden letters:</div>
+<div id="geraden"></div>
 </body>
 </html>
+
+toevoegingen: <br>
+reset spel knop als je hebt gerwonnne <br>
+geen cijfers laten raden <br>
