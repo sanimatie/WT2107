@@ -19,6 +19,10 @@
         #nieuw-spel{
             visibility: hidden;
         }
+
+        #uitslag {
+            font-size: 50px;
+        }
     </style>
     <script>
     var woordenArray = ["abdij","afbek","afbel","afbid","afbik","afbod","afbol","afdek","afdoe","afdok"
@@ -90,9 +94,11 @@ function checkWoord(){
             document.getElementById("lingoButton").disabled = "true";
             nieuwSpel.style.visibility = "visible";
         }
+
     } else {
         alert("voer een woord van 5 letters in");
     }
+    document.getElementById("woordInput").value = "";
 }
 
     function nieuwSpel(){
@@ -114,5 +120,3 @@ function checkWoord(){
 <input id="nieuw-spel" type="button" value="nieuw spel" onclick="nieuwSpel()">
 </body>
 </html>
-reset invoerbalk <br>
-ij telt als een letter maar ja
