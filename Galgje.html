@@ -17,7 +17,6 @@
         }
         #galgjeFull {
             width: 90%;
-            border: solid;
             margin: auto;
             padding: 10px;
             background-color:white;
@@ -34,6 +33,14 @@
         }
         .input-regel {
             display: inline;
+        }
+        #nieuw-spel {
+            height: 50px;
+            width: 200px;
+            visibility: hidden;
+        }
+        #gewonnen {
+            font-size: 20px;
         }
     </style>
     <script>
@@ -62,22 +69,20 @@
         weergaveWoord.innerHTML+= "_";
         //maak een array met het juiste aantal letters
         weergaveLetters.push("_");
-        }
-        //verberg nieuw spel knop
-        document.getElementById("nieuw-spel").style.visibility = "hidden";
+         }
     }
 
     function checkletter(){
     var pogingenNieuw = document.getElementById("pogingen");
     var inputVak = document.getElementById("letter-input");
     var letterInput = inputVak.value;
+    var inputButton = document.getElementById("input-button");
 
     var countLetter = 0;
 
     var foutGeraden = document.getElementById("geraden");
 
     var background = document.getElementById("galgjeFull");
-    var inputRegel = document.getElementsByClassName("input-regel");
     
     //weer opnieuw de id het-woord zoeken want ik krijg daar geen globale variabele van gemaakt for some reason
     var weergaveWoord = document.getElementById("het-woord");
@@ -131,15 +136,16 @@
                 gewonnenTekst.innerHTML="je hebt gewonnen!";
                 //maak nieuw spel knop zichtbaar
                 document.getElementById("nieuw-spel").style.visibility = "visible";
-                inputRegel.style.display = "none";
-                console.log(inputRegel);
+                inputVak.disabled = "true";
+                inputButton.disabled = "true";
                 }
 
                 //controleer of je pogingen op zijn en geef een verliesmelding als dit zo is
                 if (pogingenNum === 0){
-                    gewonnenTekst.innerHTML = "je hebt verloren :-(";
+                    gewonnenTekst.innerHTML = "je hebt verloren :-( <br> het antwoord was " + antwoord;
                     document.getElementById("nieuw-spel").style.visibility = "visible";
-                    inputRegel.style.display = "none";
+                    inputVak.disabled = "true";
+                    inputButton.disabled = "true";
                 }
 
     }
@@ -161,7 +167,7 @@ function nieuwSpel(){
 <p id="gewonnen"></p>
 <p class="input-regel">vul een letter in: </p>
 <input id="letter-input" class="input-regel" type="text" maxlength="1" size="1">
-<input class="input-regel" type="button" value="raden" onclick="checkletter()">
+<input id="input-button" class="input-regel" type="button" value="raden" onclick="checkletter()">
 <br>
 <p>overige pogingen: </p>
 <p id="pogingen">10</p>
