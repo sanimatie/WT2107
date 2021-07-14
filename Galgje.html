@@ -4,7 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Raleway:wght@300;400&display=swap" rel="stylesheet">
+
+    <title>Galgje</title>
+    <style>
+        body {
+            font-family: "Raleway", sans-serif;
+            background-color: black;
+        }
+        #galgjeFull {
+            width: 90%;
+            border: solid;
+            margin: auto;
+            padding: 10px;
+            background-color:white;
+        }
+        #het-woord{
+            font-family: "Indie Flower", cursive;
+            font-size: 50px;
+        }
+        h1 {
+            margin-bottom: 0;
+        }
+        #pogingen {
+            font-size: 50px;
+        }
+        .input-regel {
+            display: inline;
+        }
+    </style>
     <script>
     var woordenArray = ["cavia","krukje","tijd","fors","sambal","zuivel","kritisch","jasje","giga","dieren"
 ,"lepel","picknick","quasi","verzenden","winnaar","dextrose","vrezen","niqaab","hierbij","quote"
@@ -21,14 +52,16 @@
     var antwoord = woordenArray[Math.floor(Math.random()*100)];
     console.log(antwoord);
     var weergaveLetters = [];
+
+    //plaats de initiele lijntjes voor het aantal woorden en verberg de nieuw spel knop
   
     window.onload = function Galgje(){
     var weergaveWoord = document.getElementById("het-woord");
     for (i = 0; i < antwoord.length; i++){
         //geef het aantal letters aan op het scherm
-        weergaveWoord.innerHTML+= "_ ";
+        weergaveWoord.innerHTML+= "_";
         //maak een array met het juiste aantal letters
-        weergaveLetters.push("_ ");
+        weergaveLetters.push("_");
         }
         //verberg nieuw spel knop
         document.getElementById("nieuw-spel").style.visibility = "hidden";
@@ -42,6 +75,9 @@
     var countLetter = 0;
 
     var foutGeraden = document.getElementById("geraden");
+
+    var background = document.getElementById("galgjeFull");
+    var inputRegel = document.getElementsByClassName("input-regel");
     
     //weer opnieuw de id het-woord zoeken want ik krijg daar geen globale variabele van gemaakt for some reason
     var weergaveWoord = document.getElementById("het-woord");
@@ -49,7 +85,7 @@
     var gewonnenTekst = document.getElementById("gewonnen");
     //voorkom dat mensen iet anders dan een letter versturen
     var geenLetters = /[^A-Za-z]/;
-    if (letterInput.match(geenLetters)){
+    if (letterInput.match(geenLetters) || letterInput == ""){
         alert("vul een letter in");
         inputVak.value="";
     } else {
@@ -59,12 +95,15 @@
                     if (letterInput == weergaveLetters[i]){
                         alert("Deze letter heb je al geraden");
                         countLetter++;
+                        background.style.backgroundColor = "white";
                         //stop de loop zodat je niet twee keer dezelfde melding krijgt als een letter twee keer voorkomt
                         i = antwoord.length;
                     } else {
                     countLetter++;
                     //gebruik de eerder gemaakte array om de nieuwe letters te plaatsen
                     weergaveLetters[i] = letterInput;
+                    pogingenNieuw.style.color = "initial";
+                    background.style.backgroundColor = "#CAF5DA";
 
                     }
 
@@ -73,8 +112,8 @@
             }
             if (countLetter == 0){
                     pogingenNum--;
-                    pogingenNieuw.innerHTML = "overige pogingen: " + pogingenNum;
-
+                    pogingenNieuw.innerHTML = pogingenNum;
+                    background.style.backgroundColor = "#F57260";
                     //melding als je de letter al geraden hebt, kost een punt
                     if (foutGeraden.innerHTML.includes(letterInput)){
                         alert("Deze letter heb je al geraden");
@@ -92,11 +131,15 @@
                 gewonnenTekst.innerHTML="je hebt gewonnen!";
                 //maak nieuw spel knop zichtbaar
                 document.getElementById("nieuw-spel").style.visibility = "visible";
+                inputRegel.style.display = "none";
+                console.log(inputRegel);
                 }
 
                 //controleer of je pogingen op zijn en geef een verliesmelding als dit zo is
                 if (pogingenNum === 0){
                     gewonnenTekst.innerHTML = "je hebt verloren :-(";
+                    document.getElementById("nieuw-spel").style.visibility = "visible";
+                    inputRegel.style.display = "none";
                 }
 
     }
@@ -109,19 +152,22 @@ function nieuwSpel(){
     </script>
 </head>
 <body>
-    <div>
-Galgje
+<div id="galgjeFull">
+<h1>Galgje</h1>
 <br>
-vul een letter in
+<p>je geraden letters:</p>
 <br>
-<div id="het-woord"></div>
+<p id="het-woord"></p>
+<p id="gewonnen"></p>
+<p class="input-regel">vul een letter in: </p>
+<input id="letter-input" class="input-regel" type="text" maxlength="1" size="1">
+<input class="input-regel" type="button" value="raden" onclick="checkletter()">
 <br>
-<div id="gewonnen"></div>
-<input id="letter-input" type="text" maxlength="1" size="1">
-<input type="button" value="stuur" onclick="checkletter()">
-<div id="pogingen">overige pogingen: 10</div>
-<div>fout geraden letters:</div>
-<div id="geraden"></div>
+<p>overige pogingen: </p>
+<p id="pogingen">10</p>
+<p>fout geraden letters:</p>
+<p id="geraden" style="color:#4D1200"></p>
 <input id="nieuw-spel" type="button" value="nieuw spel" onclick="nieuwSpel()">
+</div>
 </body>
 </html>
