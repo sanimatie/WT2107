@@ -54,23 +54,24 @@ function checkWoord(){
     var nieuwSpel = document.getElementById("nieuw-spel");
     var goedeLetters = 0;
     var waardeInput =  document.getElementById("woordInput").value;
+    var nieuwAntwoord = antwoord;
 
     if (waardeInput.length == 5){
         for(var i=0; i<waardeInput.length; i++){
             var vakje = document.getElementById(regel+"-"+(i+1));
 
             for (var j=0; j<antwoord.length; j++){
-                if (waardeInput[i] == antwoord[j]){
+                if (waardeInput[i] == nieuwAntwoord[j]){
                     if (i == j){
-                        console.log("zelfde plek " + waardeInput[i]);
                         vakje.style.backgroundColor="red";
                         goedeLetters++;
                     } else {
-                        console.log("andere plek " + waardeInput[i]);
                         vakje.style.backgroundColor="yellow";
                         vakje.style.borderRadius="50%";
                         vakje.style.borderColor="yellow";
+                        nieuwAntwoord = nieuwAntwoord.replace(antwoord[j], "_");
                     }
+
                 }
             }
             vakje.innerHTML = waardeInput[i];
@@ -114,4 +115,4 @@ function checkWoord(){
 </body>
 </html>
 reset invoerbalk <br>
-aantal goede letters
+ij telt als een letter maar ja
