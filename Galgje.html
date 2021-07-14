@@ -3,30 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-with, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
     var pogingenNum = 10;
-    function checkletter(woord){
-    var pogingenNieuw = document.getElementById("pogingen").innerHTML;
-    console.log(pogingenNieuw);
+    var antwoord = 'test';
+  
+    window.onload = function Galgje(){
+    var weergaveWoord = document.getElementById("het-woord");
+    for (i = 0; i < antwoord.length; i++){
+        weergaveWoord.innerHTML+= "_ ";
+    }
+}
+    //de letters komen niet altijd op de goede plek te staan atm
+
+    function checkletter(){
+    var pogingenNieuw = document.getElementById("pogingen");
     var letterInput = document.getElementById("letter-input").value;
     var countLetter = 0;
-    for (var i = 0; i < woord.length; i++){
-        if (letterInput == woord[i]){
-            alert(true);
-            countLetter++;
-        }
+
+    //weergave woord omzetten naar een array, om de juiste letters erin te plaatsen
+    var weergaveWoord = document.getElementById("het-woord");
+    var weergaveLetters = weergaveWoord.innerHTML.split(" ");
+
+    for (var i = 0; i < antwoord.length; i++){
+        if (letterInput == antwoord[i]){
+            //alert(true);
+            //countLetter++;
+            weergaveLetters[i] = letterInput;
+
+       }
+       //array weer omzetten naar een string
+       weergaveWoord.innerHTML = weergaveLetters.join("");
+       //spaties plaatsen tussen de _
     }
     if (countLetter == 0){
             alert(false);
             pogingenNum--;
-            console.log(pogingenNum);
-            //dit werkt niet
-           pogingenNieuw = "overige pogingen: " + pogingenNum;
+            pogingenNieuw.innerHTML = "overige pogingen: " + pogingenNum;
             
         }
     }
+
     </script>
 </head>
 <body>
@@ -35,8 +53,10 @@ Galgje
 <br>
 vul een letter in
 <br>
+<div id="het-woord"></div>
+<br>
 <input id="letter-input" type="text" maxlength="1">
-<input type="button" value="stuur" onclick="checkletter('test')">
+<input type="button" value="stuur" onclick="checkletter()">
 <div id="pogingen">overige pogingen: 10</div>
 </body>
 </html>
